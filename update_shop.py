@@ -4,6 +4,7 @@ import urllib
 import cookielib
 import json
 import mypprint
+import datetime
 
 FAMILY_URL = 'http://www.family.com.tw/marketing/inquiry.aspx'
 API_MAP = 'http://api.map.com.tw/net/familyShop.aspx'
@@ -45,18 +46,21 @@ def main():
     cj = cookielib.CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
     areaList = getAreaList(opener)
-    allShop = []
+    allShopInfo = {'shopList' : []}
+    allShopInfo['version'] = datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d%H%M%S')
+    allShopList = allShopInfo['shopList']
     for area in areaList:
         townList = getTownList(opener, area)
         if townList:
             #ret[area] = {}
             for town in townList:
                 shopList = getShopList(opener, town)
-                allShop.extend(shopList)
+                allShopList.extend(shopList)
                 #ret[area][town['town']] = shopList
     #pp = mypprint.MyPrettyPrinter(indent=4)
     #pp.pprint(ret)
-    json.dump(allShop, open('all-shop.json', 'w'))
+    json.dump(allShopInfo, open('all-shop.json', 'w'))
+
 
 if __name__ == '__main__':
     main()
