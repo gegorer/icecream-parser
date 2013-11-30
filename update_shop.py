@@ -59,7 +59,7 @@ def main():
                 #ret[area][town['town']] = shopList
     #pp = mypprint.MyPrettyPrinter(indent=4)
     #pp.pprint(ret)
-    json.dump(allShopInfo, open('all-shop.json', 'w'))
+    json.dump(allShopInfo, open('all_shop.json', 'w'))
 
 
 if __name__ == '__main__':
